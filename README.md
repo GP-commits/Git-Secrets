@@ -39,7 +39,7 @@
 ## 🏗️ Architecture
 
 
-<img width="1536" height="1024" alt="Neon GitHub scan flowchart" src="https://github.com/user-attachments/assets/d0a99e94-04ee-4ebc-84db-abf1c65b38c8" />
+<img width="1536" height="1024" alt="GIT secrets scanning flowchart" src="https://github.com/user-attachments/assets/d6b2119c-e608-4e2d-bdda-d1d554acbefc" />
 
 
 ### How it works
