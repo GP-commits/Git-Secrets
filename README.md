@@ -4,7 +4,8 @@
   <img src="https://img.shields.io/badge/license-MIT-green" />
 </p>
 
-<h1 align="center">🔑 Git Secrets Scanner</h1>
+<h1 align="center"><img width="1024" height="183" alt="Screenshot_2026-04-06_151021-removebg-preview" src="https://github.com/user-attachments/assets/a31f713e-07ee-4c2a-879f-f8b31c020b7d" />
+</h1>
 
 <p align="center">
   <b>A powerful CLI tool that scans GitHub repositories for accidentally committed secrets — API keys, tokens, passwords, private keys, and more.</b>
