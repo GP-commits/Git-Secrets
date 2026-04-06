@@ -13,6 +13,11 @@
 <p align="center">
   Like a digital metal detector for your codebase. Find what shouldn't be public before someone else does.
 </p>
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/df168a7a-f5e7-4c2f-8af5-64630b4d4bac" alt="CLI Demo">
+</p>
+
+
 
 ---
 
