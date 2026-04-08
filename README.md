@@ -1,7 +1,10 @@
 <p align="center">
   <img src="https://img.shields.io/badge/python-3.8+-blue?logo=python&logoColor=white" />
   <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey" />
+    <img src="https://trendshift.io/api/badge/repositories/14699" alt="bytedance%2Fdeer-flow | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
   <img src="https://img.shields.io/badge/license-MIT-green" />
+
+
 </p>
 
 <h1 align="center"><img width="1024" height="183" alt="Screenshot_2026-04-06_151021-removebg-preview" src="https://github.com/user-attachments/assets/a31f713e-07ee-4c2a-879f-f8b31c020b7d" />
