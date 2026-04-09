@@ -184,7 +184,9 @@ _VERBOSE = False
 
 
 def _redact(s: str, keep: int = 6) -> str:
-    return s
+    if len(s) <= keep:
+        return s
+    return s[:keep] + "*" * (len(s) - keep)
 
 
 def _is_text_file(filepath: Path) -> bool:
