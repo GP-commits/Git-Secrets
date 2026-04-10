@@ -500,10 +500,13 @@ Examples:
                         help="Export results as JSON to this file path")
     parser.add_argument("--include-forks", action="store_true",
                         help="Include forked repositories (excluded by default)")
+    parser.add_argument("--unsafe-show-secrets", action="store_true",
+                        help="Show the full unredacted secrets in the output")
     parser.add_argument("--verbose", "-v", action="store_true",
                         help="Show detailed progress output")
     args = parser.parse_args()
     _VERBOSE = args.verbose
+    _SHOW_SECRETS = args.unsafe_show_secrets
 
     print_banner()
 
