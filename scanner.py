@@ -181,9 +181,12 @@ def _log(msg: str, level: str = "info", verbose_only: bool = False):
     print(f"  {prefix_map.get(level, '[?]')} {msg}")
 
 _VERBOSE = False
+_SHOW_SECRETS = False
 
 
 def _redact(s: str, keep: int = 6) -> str:
+    if _SHOW_SECRETS:
+        return s
     if len(s) <= keep:
         return s
     return s[:keep] + "*" * (len(s) - keep)
@@ -480,7 +483,7 @@ def export_json(result: ScanResult, filepath: str):
 
 
 def main():
-    global _VERBOSE
+    global _VERBOSE, _SHOW_SECRETS
 
     parser = argparse.ArgumentParser(
         description="Scan GitHub repositories for accidentally committed secrets.",
@@ -502,8 +505,11 @@ Examples:
                         help="Include forked repositories (excluded by default)")
     parser.add_argument("--verbose", "-v", action="store_true",
                         help="Show detailed progress output")
+    parser.add_argument("--show-secrets", action="store_true",
+                        help="Show the full unredacted secrets in the output")
     args = parser.parse_args()
     _VERBOSE = args.verbose
+    _SHOW_SECRETS = args.show_secrets
 
     print_banner()
 
