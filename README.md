@@ -149,6 +149,16 @@ python scanner.py <github-username> --verbose
 
 Shows detailed progress for every file and commit scanned.
 
+### Unsafe Secret Display
+
+```bash
+python scanner.py <github-username> --unsafe-show-secrets --yes
+```
+
+> [!WARNING]
+> By default, the scanner securely redacts all found secrets before outputting them to the terminal. If you absolutely need to view the unredacted credential, use `--unsafe-show-secrets`.
+> **Never use this flag in shared environments or CI/CD pipelines. The tool will automatically block usage in CI environments or non-interactive terminals, unless overridden with `--yes`.**
+
 ### All options combined
 
 ```bash
@@ -164,8 +174,8 @@ python scanner.py myorg \
 
 ```
 usage: scanner.py [-h] [--token TOKEN] [--fast] [--output OUTPUT]
-                  [--include-forks] [--verbose]
-                  username
+                  [--include-forks] [--unsafe-show-secrets] [--yes] 
+                  [--verbose] username
 
 positional arguments:
   username              GitHub username or organization name
@@ -176,6 +186,8 @@ options:
   --fast, -f            Fast mode: scan only the latest commit (skip history)
   --output, -o OUTPUT   Export results as JSON to this file path
   --include-forks       Include forked repositories (excluded by default)
+  --unsafe-show-secrets Show the full unredacted secrets in the output
+  --yes, -y             Bypass interactive confirmation for --unsafe-show-secrets
   --verbose, -v         Show detailed progress output
 ```
 

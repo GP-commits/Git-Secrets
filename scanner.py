@@ -153,6 +153,7 @@ class Finding:
     secret_type: str
     snippet: str
     source: str  # where we found it: "file" or "history"
+    raw_snippet: str = ""
 
 @dataclass
 class ScanResult:
@@ -181,6 +182,7 @@ def _log(msg: str, level: str = "info", verbose_only: bool = False):
     print(f"  {prefix_map.get(level, '[?]')} {msg}")
 
 _VERBOSE = False
+_SHOW_SECRETS = False
 
 
 def _redact(s: str, keep: int = 6) -> str:
@@ -294,6 +296,7 @@ def scan_file_content(content: str, repo_name: str, filepath: str,
                     secret_type=secret_type,
                     snippet=_redact(snippet, keep=40),
                     source=source,
+                    raw_snippet=snippet,
                 ))
     return findings
 
@@ -371,6 +374,7 @@ def scan_commit_history(repo_dir: Path, repo_name: str) -> tuple[list[Finding], 
                         secret_type=secret_type,
                         snippet=_redact(snippet, keep=40),
                         source="history",
+                        raw_snippet=snippet,
                     ))
 
     return findings, commits_scanned
@@ -449,8 +453,10 @@ def print_report(result: ScanResult):
             print(f"  {Fore.MAGENTA}  {branch}── {Fore.YELLOW}{f.secret_type}{Style.RESET_ALL}")
             print(f"  {Fore.MAGENTA}  {'   ' if is_last else '│  '} "
                   f"{Fore.WHITE}{f.file}:{line_info} {src_tag}{Style.RESET_ALL}")
+            
+            output_snippet = f.raw_snippet if _SHOW_SECRETS else f.snippet
             print(f"  {Fore.MAGENTA}  {'   ' if is_last else '│  '} "
-                  f"{Fore.RED}{f.snippet}{Style.RESET_ALL}")
+                  f"{Fore.RED}{output_snippet}{Style.RESET_ALL}")
             print()
 
     if result.errors:
@@ -469,7 +475,7 @@ def export_json(result: ScanResult, filepath: str):
         "commits_scanned": result.commits_scanned,
         "scan_duration_seconds": result.scan_duration_seconds,
         "total_findings": len(result.findings),
-        "findings": [asdict(f) for f in result.findings],
+        "findings": [{k: v for k, v in asdict(f).items() if k != "raw_snippet"} for f in result.findings],
         "errors": result.errors,
     }
     with open(filepath, "w", encoding="utf-8") as fh:
@@ -480,7 +486,7 @@ def export_json(result: ScanResult, filepath: str):
 
 
 def main():
-    global _VERBOSE
+    global _VERBOSE, _SHOW_SECRETS
 
     parser = argparse.ArgumentParser(
         description="Scan GitHub repositories for accidentally committed secrets.",
@@ -502,11 +508,29 @@ Examples:
                         help="Include forked repositories (excluded by default)")
     parser.add_argument("--unsafe-show-secrets", action="store_true",
                         help="Show the full unredacted secrets in the output")
+    parser.add_argument("--yes", "-y", action="store_true",
+                        help="Bypass interactive confirmation for --unsafe-show-secrets")
     parser.add_argument("--verbose", "-v", action="store_true",
                         help="Show detailed progress output")
     args = parser.parse_args()
     _VERBOSE = args.verbose
     _SHOW_SECRETS = args.unsafe_show_secrets
+
+    if _SHOW_SECRETS:
+        if os.environ.get("CI", "").lower() == "true":
+            _log("CI environment detected. Ignoring --unsafe-show-secrets and reverting to redaction.", "warn")
+            _SHOW_SECRETS = False
+        elif not sys.stdout.isatty() and not args.yes:
+            _log("Non-interactive terminal detected without --yes. Assuming unsafe. Reverting to redaction.", "warn")
+            _SHOW_SECRETS = False
+        elif not args.yes:
+            prompt = input("  [!] WARNING: You are exposing full secrets. Do not use in shared or CI environments.\n  Type 'yes' to proceed: ")
+            if prompt.strip().lower() != 'yes':
+                _log("Aborted exposing secrets. Reverting to redaction.", "warn")
+                _SHOW_SECRETS = False
+                
+    if _SHOW_SECRETS:
+        print(f"  {Fore.RED}{Style.BRIGHT}[WARNING] You are exposing full secrets. Do not use in shared or CI environments.{Style.RESET_ALL}")
 
     print_banner()
 
