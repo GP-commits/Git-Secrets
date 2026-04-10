@@ -130,7 +130,7 @@ SECRET_PATTERNS: list[tuple[str, re.Pattern]] = [
      re.compile(r"\b([MN][A-Za-z\d]{23,}\.[\w-]{6}\.[\w-]{27,})\b")),
 
     ("Telegram Bot Token",
-     re.compile(r"\b(\d{8,10}:[A-Za-z0-9_-]{35})\b")),
+     re.compile(r"\b(\d{8,10}:[A-Za-z0-9_-]{32})\b")),
 
     ("NPM Access Token",
      re.compile(r"\b(npm_[A-Za-z0-9]{36})\b")),
