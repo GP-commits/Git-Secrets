@@ -662,7 +662,7 @@ def print_guide():
     print(f"\n  {Fore.BLUE}{Style.BRIGHT}SYSTEM{Style.RESET_ALL}")
     print(f"  {Fore.WHITE}  -v, --verbose        Show granular, step-by-step progress during the audit.{Style.RESET_ALL}")
     print(f"  {Fore.WHITE}  -h, --help           Standard technical help output.{Style.RESET_ALL}")
-    print(f"  {Fore.WHITE}  --guide              Show this beautiful command guide.{Style.RESET_ALL}")
+    print(f"  {Fore.WHITE}  --guide              Show command guide.{Style.RESET_ALL}")
 
     print(f"\n  {Fore.CYAN}{Style.BRIGHT}PRO-TIP EXAMPLES:{Style.RESET_ALL}")
     print(f"  {Fore.WHITE}  * Standard Audit:      {Fore.YELLOW}python scanner.py my-username{Style.RESET_ALL}")
