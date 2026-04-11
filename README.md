@@ -27,13 +27,15 @@
 
 ## ⚡ Features
 
+- 🚀 **Turbo Parallel Scanning** — Scan multiple repositories simultaneously with the new `--jobs` flag (5x speedup)
+- 🧹 **Advanced Noise Reduction** — Automatic skipping of `venv`, `site-packages`, and other library folders in both files and history
+- 🧠 **Smart Deduplication** — Intelligently prioritizes specific secret types over generic ones on the same line
+- 📖 **Interactive Command Guide** — Use the new `--guide` flag for a beautiful, categorized overview of all features
 - 🔍 **20+ secret patterns** — AWS, GitHub, Google, Stripe, Slack, Discord, Telegram, JWT, SSH keys, database URIs, and more
 - 📜 **Full commit history scanning** — detects secrets that were committed and later deleted (default mode)
-- 🚀 **Fast mode** — scan only the latest commit for quick audits
 - 🔒 **Optional PAT support** — scan private repos or bypass rate limits with a GitHub Personal Access Token
-- 🎨 **Colored terminal output** — beautiful, readable reports with redacted snippets
+- 🎨 **Clean ASCII reports** — Ultra-readable audit logs without the noise of emojis or redundant hits
 - 📄 **JSON export** — machine-readable output for CI/CD pipelines
-- 🧹 **Auto-cleanup** — cloned repos are deleted after scanning
 - 🚫 **Fork filtering** — skips forks by default to focus on original code
 - 🔁 **CI-friendly** — exits with code `1` when secrets are found
 
@@ -175,7 +177,7 @@ python scanner.py myorg \
 ```
 usage: scanner.py [-h] [--token TOKEN] [--fast] [--output OUTPUT]
                   [--include-forks] [--unsafe-show-secrets] [--yes] 
-                  [--verbose] username
+                  [--verbose] [--jobs JOBS] [--guide] username
 
 positional arguments:
   username              GitHub username or organization name
@@ -189,6 +191,8 @@ options:
   --unsafe-show-secrets Show the full unredacted secrets in the output
   --yes, -y             Bypass interactive confirmation for --unsafe-show-secrets
   --verbose, -v         Show detailed progress output
+  --jobs, -j JOBS       Number of concurrent repo scans (default: 4)
+  --guide               Show the visual command guide
 ```
 
 ---
