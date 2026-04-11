@@ -27,17 +27,19 @@
 
 ## ⚡ Features
 
-- 🚀 **Turbo Parallel Scanning** — Scan multiple repositories simultaneously with the new `--jobs` flag (5x speedup)
-- 🧹 **Advanced Noise Reduction** — Automatic skipping of `venv`, `site-packages`, and other library folders in both files and history
-- 🧠 **Smart Deduplication** — Intelligently prioritizes specific secret types over generic ones on the same line
-- 📖 **Interactive Command Guide** — Use the new `--guide` flag for a beautiful, categorized overview of all features
-- 🔍 **20+ secret patterns** — AWS, GitHub, Google, Stripe, Slack, Discord, Telegram, JWT, SSH keys, database URIs, and more
-- 📜 **Full commit history scanning** — detects secrets that were committed and later deleted (default mode)
-- 🔒 **Optional PAT support** — scan private repos or bypass rate limits with a GitHub Personal Access Token
-- 🎨 **Clean ASCII reports** — Ultra-readable audit logs without the noise of emojis or redundant hits
-- 📄 **JSON export** — machine-readable output for CI/CD pipelines
-- 🚫 **Fork filtering** — skips forks by default to focus on original code
-- 🔁 **CI-friendly** — exits with code `1` when secrets are found
+## PREVIOUS UPDATES
+
+- TURBO Parallel Scanning --- Scan multiple repositories simultaneously with the new --jobs flag (5x speedup)
+- Advanced Noise Reduction --- Automatic skipping of venv, site-packages, and other library folders
+- Smart Deduplication --- Intelligently prioritizes specific secret types over generic ones
+- Interactive Command Guide --- Use the new --guide flag for a categorized overview of all features
+- 20+ secret patterns --- AWS, GitHub, Google, Stripe, Slack, Discord, Telegram, JWT, SSH keys, database URIs, and more
+- Full commit history scanning --- detects secrets that were committed and later deleted
+- Optional PAT support --- scan private repos or bypass rate limits
+- Clean ASCII reports --- Ultra-readable audit logs without the noise of emojis or redundant hits
+- JSON export --- machine-readable output for CI/CD pipelines
+- Fork filtering --- skips forks by default to focus on original code
+- CI-friendly --- exits with code 1 when secrets are found
 
 ---
 
@@ -61,7 +63,7 @@
 
 ---
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
@@ -378,5 +380,5 @@ This project is licensed under the MIT License. See [LICENSE](LICENSE) for detai
 ---
 
 <p align="center">
-  Made with ❤️ for developers who care about security.
+  Made with care for developers who care about security.
 </p>
