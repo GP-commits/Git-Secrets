@@ -78,72 +78,72 @@ SKIP_DIRS = frozenset({
 })
 
 
-SECRET_PATTERNS: list[tuple[str, re.Pattern]] = [
+SECRET_PATTERNS: list[tuple[str, re.Pattern, str]] = [
     ("AWS Access Key ID",
-     re.compile(r"(?<![A-Z0-9])(?P<secret>AKIA[0-9A-Z]{16})(?![A-Z0-9])")),
+     re.compile(r"(?<![A-Z0-9])(?P<secret>AKIA[0-9A-Z]{16})(?![A-Z0-9])"), "Paid"),
     ("AWS Secret Access Key",
-     re.compile(r"""(?i)aws[_\-]?secret[_\-]?access[_\-]?key[\s]*[=:]\s*['"]?(?P<secret>[A-Za-z0-9/+=]{40})['"]?""")),
+     re.compile(r"""(?i)aws[_\-]?secret[_\-]?access[_\-]?key[\s]*[=:]\s*['"]?(?P<secret>[A-Za-z0-9/+=]{40})['"]?"""), "Paid"),
 
     ("GitHub Personal Access Token (classic)",
-     re.compile(r"\b(?P<secret>ghp_[A-Za-z0-9]{36,})\b")),
+     re.compile(r"\b(?P<secret>ghp_[A-Za-z0-9]{36,})\b"), "Free"),
     ("GitHub Fine-grained PAT",
-     re.compile(r"\b(?P<secret>github_pat_[A-Za-z0-9_]{22,})\b")),
+     re.compile(r"\b(?P<secret>github_pat_[A-Za-z0-9_]{22,})\b"), "Free"),
     ("GitHub OAuth Access Token",
-     re.compile(r"\b(?P<secret>gho_[A-Za-z0-9]{36,})\b")),
+     re.compile(r"\b(?P<secret>gho_[A-Za-z0-9]{36,})\b"), "Free"),
 
     ("Google API Key",
-     re.compile(r"\b(?P<secret>AIza[0-9A-Za-z\-_]{35})\b")),
+     re.compile(r"\b(?P<secret>AIza[0-9A-Za-z\-_]{35})\b"), "Paid"),
     ("Google OAuth Client Secret",
-     re.compile(r"""(?i)client[_\-]?secret[\s]*[=:]\s*['"]?(?P<secret>[A-Za-z0-9\-_]{24,})['"]?""")),
+     re.compile(r"""(?i)client[_\-]?secret[\s]*[=:]\s*['"]?(?P<secret>[A-Za-z0-9\-_]{24,})['"]?"""), "Paid"),
 
     ("Slack Bot Token",
-     re.compile(r"\b(?P<secret>xoxb-[0-9]{10,}-[0-9]{10,}-[A-Za-z0-9]{24,})\b")),
+     re.compile(r"\b(?P<secret>xoxb-[0-9]{10,}-[0-9]{10,}-[A-Za-z0-9]{24,})\b"), "Free"),
     ("Slack Webhook URL",
-     re.compile(r"(?P<secret>https://hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[A-Za-z0-9]+)")),
+     re.compile(r"(?P<secret>https://hooks\.slack\.com/services/T[A-Z0-9]+/B[A-Z0-9]+/[A-Za-z0-9]+)"), "Free"),
 
     ("Stripe Secret Key",
-     re.compile(r"\b(?P<secret>sk_live_[0-9a-zA-Z]{24,})\b")),
+     re.compile(r"\b(?P<secret>sk_live_[0-9a-zA-Z]{24,})\b"), "Paid"),
     ("Stripe Publishable Key",
-     re.compile(r"\b(?P<secret>pk_live_[0-9a-zA-Z]{24,})\b")),
+     re.compile(r"\b(?P<secret>pk_live_[0-9a-zA-Z]{24,})\b"), "Paid"),
 
     ("Twilio API Key",
-     re.compile(r"\b(?P<secret>SK[0-9a-fA-F]{32})\b")),
+     re.compile(r"\b(?P<secret>SK[0-9a-fA-F]{32})\b"), "Paid"),
 
     ("SendGrid API Key",
-     re.compile(r"\b(?P<secret>SG\.[A-Za-z0-9\-_]{22,}\.[A-Za-z0-9\-_]{43,})\b")),
+     re.compile(r"\b(?P<secret>SG\.[A-Za-z0-9\-_]{22,}\.[A-Za-z0-9\-_]{43,})\b"), "Paid"),
 
     ("Mailgun API Key",
-     re.compile(r"\b(?P<secret>key-[0-9a-zA-Z]{32})\b")),
+     re.compile(r"\b(?P<secret>key-[0-9a-zA-Z]{32})\b"), "Paid"),
 
     ("JSON Web Token",
-     re.compile(r"\b(?P<secret>eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})\b")),
+     re.compile(r"\b(?P<secret>eyJ[A-Za-z0-9_-]{10,}\.eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,})\b"), "Free"),
 
     ("RSA/DSA/EC/OpenSSH Private Key",
-     re.compile(r"(?P<secret>-----BEGIN\s+(?:RSA |DSA |EC |OPENSSH )?PRIVATE KEY-----)")),
+     re.compile(r"(?P<secret>-----BEGIN\s+(?:RSA |DSA |EC |OPENSSH )?PRIVATE KEY-----)"), "Free"),
 
     ("Heroku API Key",
-     re.compile(r"""(?i)heroku[_\-]?api[_\-]?key[\s]*[=:]\s*['"]?(?P<secret>[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})['"]?""")),
+     re.compile(r"""(?i)heroku[_\-]?api[_\-]?key[\s]*[=:]\s*['"]?(?P<secret>[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})['"]?"""), "Paid"),
 
     ("Database Connection String",
-     re.compile(r"""(?i)(?P<secret>(?:mongodb(?:\+srv)?|mysql|postgres(?:ql)?|redis|amqp)://[^\s'"]{10,})""")),
+     re.compile(r"""(?i)(?P<secret>(?:mongodb(?:\+srv)?|mysql|postgres(?:ql)?|redis|amqp)://[^\s'"]{10,})"""), "Paid"),
 
     ("Generic Secret Assignment",
-     re.compile(r"""(?i)(?:password|passwd|pwd|secret|api[_\-]?key|access[_\-]?token|auth[_\-]?token|credentials|private[_\-]?key)\s*[=:]\s*['"](?P<secret>[^'"]{8,})['"]""")),
+     re.compile(r"""(?i)(?:password|passwd|pwd|secret|api[_\-]?key|access[_\-]?token|auth[_\-]?token|credentials|private[_\-]?key)\s*[=:]\s*['"](?P<secret>[^'"]{8,})['"]"""), "Free"),
 
     ("Discord Bot Token",
-     re.compile(r"\b(?P<secret>[MN][A-Za-z\d]{23,}\.[\w-]{6}\.[\w-]{27,})\b")),
+     re.compile(r"\b(?P<secret>[MN][A-Za-z\d]{23,}\.[\w-]{6}\.[\w-]{27,})\b"), "Free"),
 
     ("Telegram Bot Token",
-     re.compile(r"\b(?P<secret>\d{8,10}:[A-Za-z0-9_-]{35})\b")),
+     re.compile(r"\b(?P<secret>\d{8,10}:[A-Za-z0-9_-]{35})\b"), "Free"),
 
     ("NPM Access Token",
-     re.compile(r"\b(?P<secret>npm_[A-Za-z0-9]{36})\b")),
+     re.compile(r"\b(?P<secret>npm_[A-Za-z0-9]{36})\b"), "Free"),
 
     ("Azure Storage Account Key",
-     re.compile(r"""(?i)(?:AccountKey|storage[_\-]?key)\s*[=:]\s*['"]?(?P<secret>[A-Za-z0-9+/=]{88})['"]?""")),
+     re.compile(r"""(?i)(?:AccountKey|storage[_\-]?key)\s*[=:]\s*['"]?(?P<secret>[A-Za-z0-9+/=]{88})['"]?"""), "Paid"),
 
     ("Firebase Cloud Messaging Key",
-     re.compile(r"\b(?P<secret>AAAA[A-Za-z0-9_-]{7}:[A-Za-z0-9_-]{140,})\b")),
+     re.compile(r"\b(?P<secret>AAAA[A-Za-z0-9_-]{7}:[A-Za-z0-9_-]{140,})\b"), "Free"),
 ]
 
 
@@ -155,6 +155,7 @@ class Finding:
     file: str
     line_number: int
     secret_type: str
+    tier: str  # "Paid" or "Free"
     snippet: str
     source: str  # where we found it: "file" or "history"
     raw_snippet: str = ""
@@ -298,7 +299,7 @@ def scan_file_content(content: str, repo_name: str, filepath: str,
         # skip minified junk
         if len(line) > 2000:
             continue
-        for secret_type, pattern in SECRET_PATTERNS:
+        for secret_type, pattern, tier in SECRET_PATTERNS:
             match = pattern.search(line)
             if match:
                 raw_snippet = line.strip()
@@ -328,6 +329,7 @@ def scan_file_content(content: str, repo_name: str, filepath: str,
                     file=filepath,
                     line_number=line_num,
                     secret_type=secret_type,
+                    tier=tier,
                     snippet=snippet,
                     source=source,
                     raw_snippet=raw_snippet,
@@ -403,7 +405,7 @@ def scan_commit_history(repo_dir: Path, repo_name: str) -> tuple[list[Finding], 
             added_line = line[1:]
             if len(added_line) > 2000:
                 continue
-            for secret_type, pattern in SECRET_PATTERNS:
+            for secret_type, pattern, tier in SECRET_PATTERNS:
                 match = pattern.search(added_line)
                 if match:
                     raw_snippet = added_line.strip()
@@ -428,6 +430,7 @@ def scan_commit_history(repo_dir: Path, repo_name: str) -> tuple[list[Finding], 
                         file=current_file,
                         line_number=0,  # can't get a real line number from diffs
                         secret_type=secret_type,
+                        tier=tier,
                         snippet=snippet,
                         source="history",
                         raw_snippet=raw_snippet,
@@ -501,32 +504,43 @@ def print_report(result: ScanResult):
         print()
         return
 
-    # group findings by repo name for readability
-    by_repo: dict[str, list[Finding]] = {}
-    for f in result.findings:
-        by_repo.setdefault(f.repo, []).append(f)
-
     total = len(result.findings)
     color = Fore.RED if total > 0 else Fore.GREEN
     print(f"  {color}{Style.BRIGHT}  {total} potential secret(s) found!{Style.RESET_ALL}")
     print()
 
-    for repo, findings in by_repo.items():
-        print(f"  {Fore.MAGENTA}{Style.BRIGHT}  ┌─ {repo} ({len(findings)} finding(s)){Style.RESET_ALL}")
-        for i, f in enumerate(findings):
-            is_last = (i == len(findings) - 1)
-            branch = "└" if is_last else "├"
-            src_tag = f"{Fore.BLUE}[history]{Style.RESET_ALL}" if f.source == "history" else f"{Fore.CYAN}[file]{Style.RESET_ALL}"
-            line_info = f"Line {f.line_number}" if f.line_number else "History Diff"
-
-            print(f"  {Fore.MAGENTA}  {branch}── {Fore.YELLOW}{f.secret_type}{Style.RESET_ALL}")
-            print(f"  {Fore.MAGENTA}  {'   ' if is_last else '│  '} "
-                  f"{Fore.WHITE}{f.file} ({line_info}) {src_tag}{Style.RESET_ALL}")
+    for tier in ["Paid", "Free"]:
+        tier_findings = [f for f in result.findings if f.tier == tier]
+        if not tier_findings:
+            continue
             
-            output_snippet = f.raw_snippet if _SHOW_SECRETS else f.snippet
-            print(f"  {Fore.MAGENTA}  {'   ' if is_last else '│  '} "
-                  f"{Fore.RED}{output_snippet}{Style.RESET_ALL}")
-            print()
+        tier_label = "PAID API KEYS" if tier == "Paid" else "FREE API KEYS"
+        tier_color = Fore.RED if tier == "Paid" else Fore.YELLOW
+        
+        print(f"  {tier_color}{Style.BRIGHT}  {'═' * 30} {tier_label} {'═' * 30}{Style.RESET_ALL}")
+        print()
+
+        # group findings by repo name for readability
+        by_repo: dict[str, list[Finding]] = {}
+        for f in tier_findings:
+            by_repo.setdefault(f.repo, []).append(f)
+
+        for repo, findings in by_repo.items():
+            print(f"  {Fore.MAGENTA}{Style.BRIGHT}  ┌─ {repo} ({len(findings)} finding(s)){Style.RESET_ALL}")
+            for i, f in enumerate(findings):
+                is_last = (i == len(findings) - 1)
+                branch = "└" if is_last else "├"
+                src_tag = f"{Fore.BLUE}[history]{Style.RESET_ALL}" if f.source == "history" else f"{Fore.CYAN}[file]{Style.RESET_ALL}"
+                line_info = f"Line {f.line_number}" if f.line_number else "History Diff"
+
+                print(f"  {Fore.MAGENTA}  {branch}── {Fore.YELLOW}{f.secret_type}{Style.RESET_ALL}")
+                print(f"  {Fore.MAGENTA}  {'   ' if is_last else '│  '} "
+                      f"{Fore.WHITE}{f.file} ({line_info}) {src_tag}{Style.RESET_ALL}")
+                
+                output_snippet = f.raw_snippet if _SHOW_SECRETS else f.snippet
+                print(f"  {Fore.MAGENTA}  {'   ' if is_last else '│  '} "
+                      f"{Fore.RED}{output_snippet}{Style.RESET_ALL}")
+                print()
 
     if result.errors:
         print(f"  {Fore.YELLOW}  {len(result.errors)} error(s) during scan:{Style.RESET_ALL}")
