@@ -561,8 +561,12 @@ def export_json(result: ScanResult, filepath: str):
         "findings": [{k: v for k, v in asdict(f).items() if k != "raw_snippet"} for f in result.findings],
         "errors": result.errors,
     }
-    with open(filepath, "w", encoding="utf-8") as fh:
-        json.dump(data, fh, indent=2, ensure_ascii=False)
+    try:
+        with open(filepath, "w", encoding="utf-8") as fh:
+            json.dump(data, fh, indent=2, ensure_ascii=False)
+    except OSError as exc:
+        _log(f"Could not write report to {filepath}: {exc.strerror or exc}", "error")
+        sys.exit(1)
     _log(f"Report exported to {filepath}", "success")
 
 
