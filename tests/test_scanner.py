@@ -91,3 +91,13 @@ def test_main_non_tty_blocks_show_secrets(mock_log, mock_stdout, mock_fetch):
         # _SHOW_SECRETS should be False because it's not a TTY and no --yes was provided
         assert scanner._SHOW_SECRETS is False
 
+def test_export_json_unwritable_path_exits_cleanly(tmp_path, capsys):
+    res = scanner.ScanResult(username="tester")
+    bad_path = tmp_path / "no-such-dir" / "out.json"
+    with pytest.raises(SystemExit) as exc_info:
+        scanner.export_json(res, str(bad_path))
+    assert exc_info.value.code == 1
+    captured = capsys.readouterr()
+    assert "Traceback" not in captured.out + captured.err
+    assert "no-such-dir" in captured.out + captured.err
+
